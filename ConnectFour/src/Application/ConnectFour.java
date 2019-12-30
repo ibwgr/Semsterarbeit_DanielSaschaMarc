@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.ArrayList;
 
 public class ConnectFour {
-    private static final String[] FIELD = {"Yellow", "Red"};
+    private static final String[] Colors = {"Red", "Yellow"};
     private static int columns, rows;
     private static ArrayList<ArrayList<SimpleStringProperty>> grid = new ArrayList<>();
     private static int lastCol = -1, lastRow = -1;
@@ -97,7 +97,8 @@ public class ConnectFour {
         for (int row = rows - 1; row >= 0; row--) {
 
             if (grid.get(row).get(col).getValue() == "White") {
-                grid.get(lastRow = row).get(lastCol = col).set(FIELD[player]);
+                grid.get(lastRow = row).get(lastCol = col).set(Colors[player]);
+                System.out.println("row " + row + " Column " + col);
                 player = 1 - player;
                 return;
             }
