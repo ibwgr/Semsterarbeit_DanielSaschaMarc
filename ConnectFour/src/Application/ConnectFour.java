@@ -10,6 +10,8 @@ public class ConnectFour {
     private static ArrayList<ArrayList<SimpleStringProperty>> grid = new ArrayList<>();
     private static int lastCol = -1, lastRow = -1;
     private int player = 0;
+    private int redMoves = 0;
+    private int yellowMoves = 0;
 
 
     public ConnectFour(int columns, int rows) {
@@ -98,10 +100,10 @@ public class ConnectFour {
 
             if (grid.get(row).get(col).getValue() == "White") {
                 grid.get(lastRow = row).get(lastCol = col).set(Colors[player]);
-                System.out.println("row " + row + " Column " + col);
                 player = 1 - player;
                 return;
             }
+
         }
         System.out.println("Column " + col + " is full.");
     }
