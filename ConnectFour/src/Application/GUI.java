@@ -54,11 +54,11 @@ public class GUI extends Application{
         Label lbAnzZuegePl1 = new Label("Anzahl Spielzüge Player 1: ");
             lbAnzZuegePl1.setPadding(new Insets(5,25,5,0));
             lbAnzZuegePl1.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbAnzZuegePl1Wert = new Label("5");
+        Label lbAnzZuegePl1Wert = new Label("0");
         Label lbAnzZuegePl2 = new Label("Anzahl Spielzüge Player 2: ");
             lbAnzZuegePl2.setPadding(new Insets(5,5,5,0));
             lbAnzZuegePl2.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbAnzZuegePl2Wert = new Label("4");
+        Label lbAnzZuegePl2Wert = new Label("0");
         Label lbAbstand = new Label("");
 
 
@@ -80,12 +80,12 @@ public class GUI extends Application{
         Label lbWinner = new Label("Sieger:");
             lbWinner.setPadding(new Insets(5,5,5,5));
             lbWinner.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerWert = new Label("Player 1");
+        Label lbWinnerWert = new Label("");
             lbWinnerWert.setPadding(new Insets(5,5,5,0));
         Label lbWinnerAnzZuege = new Label("Anzahl Spielzüge:                    ");
             lbWinnerAnzZuege.setPadding(new Insets(5,5,5,5));
             lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerAnzZuegeWert = new Label("6");
+        Label lbWinnerAnzZuegeWert = new Label("0");
             lbWinnerAnzZuegeWert.setPadding(new Insets(5,5,5,0));
             lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
         Label lbWinnerSpieldauer = new Label("Spieldauer: ");
@@ -179,7 +179,6 @@ public class GUI extends Application{
                     public void handle(ActionEvent event) {
                         game.drop(finalJ);
                         if (game.hasAWinner()) {
-                            System.out.println("someone won");
                             gPaneWinner.setVisible(true);
                         }
                     }
@@ -194,6 +193,30 @@ public class GUI extends Application{
             }
         }
         // Ende Spielfeld
+
+        game.getPlayer().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                lbAktSpielerWert.setText("Player " + (newValue.intValue() + 1));
+                lbWinnerWert.setText("Player " + (2-newValue.intValue()));
+            }
+        });
+
+        game.getPlayerMoves().get(0).addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                lbAnzZuegePl1Wert.setText(newValue.toString());
+                lbWinnerAnzZuegeWert.setText(newValue.toString());
+            }
+        });
+
+        game.getPlayerMoves().get(1).addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                lbAnzZuegePl2Wert.setText(newValue.toString());
+                lbWinnerAnzZuegeWert.setText(newValue.toString());
+            }
+        });
 
 
     }
