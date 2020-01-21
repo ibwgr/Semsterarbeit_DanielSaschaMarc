@@ -1,8 +1,11 @@
 package Application;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
@@ -42,6 +45,24 @@ public class GUI extends Application{
         lbVierGewinntLogo2.setPadding(new Insets(5,5,5,10));
         lbVierGewinntLogo2.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
 
+        // Left - Winnerinfo
+        Label lbWinner = new Label("Sieger:");
+        lbWinner.setPadding(new Insets(5,5,5,5));
+        lbWinner.setFont(Font.font("Verdana", FontWeight.BOLD,12));
+        Label lbWinnerWert = new Label("");
+        lbWinnerWert.setPadding(new Insets(5,5,5,0));
+        Label lbWinnerAnzZuege = new Label("Anzahl Spielzüge:                    ");
+        lbWinnerAnzZuege.setPadding(new Insets(5,5,5,5));
+        lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
+        Label lbWinnerAnzZuegeWert = new Label("0");
+        lbWinnerAnzZuegeWert.setPadding(new Insets(5,5,5,0));
+        lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
+        Label lbWinnerSpieldauer = new Label("Spieldauer: ");
+        lbWinnerSpieldauer.setPadding(new Insets(5,5,5,5));
+        lbWinnerSpieldauer.setFont(Font.font("Verdana", FontWeight.BOLD,12));
+        Label lbWinnerSpieldauerWert = new Label("3min 15sek");
+        lbWinnerSpieldauerWert.setPadding(new Insets(5,5,5,0));
+
         // Left - Game Infos
         Label lbAktSpieler = new Label("Aktueller Spieler: ");
             lbAktSpieler.setPadding(new Insets(5,5,5,0));
@@ -51,6 +72,25 @@ public class GUI extends Application{
             lbSpieldauer.setPadding(new Insets(5,5,5,0));
             lbSpieldauer.setFont(Font.font("Verdana", FontWeight.BOLD,12));
         Label lbSpieldauerWert = new Label("2min 15sek");
+        Service s = new Service() {
+            @Override
+            protected Task createTask() {
+                Stoppuhr stoppuhr = new Stoppuhr(game);
+                try {
+                    stoppuhr.messageProperty().addListener(new ChangeListener<String>() {
+                        @Override
+                        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                            lbSpieldauerWert.setText(newValue);
+                            lbWinnerSpieldauerWert.setText(newValue);
+                        }
+                    });
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return stoppuhr;
+            }
+        };
+        s.start();
         Label lbAnzZuegePl1 = new Label("Anzahl Spielzüge Player 1: ");
             lbAnzZuegePl1.setPadding(new Insets(5,25,5,0));
             lbAnzZuegePl1.setFont(Font.font("Verdana", FontWeight.BOLD,12));
@@ -73,26 +113,6 @@ public class GUI extends Application{
         gPaneSpielInfo.add(lbAnzZuegePl2,0,3);
         gPaneSpielInfo.add(lbAnzZuegePl2Wert,1,3);
         gPaneSpielInfo.add(lbAbstand,0,4);
-
-
-
-        // Left - Winnerinfo
-        Label lbWinner = new Label("Sieger:");
-            lbWinner.setPadding(new Insets(5,5,5,5));
-            lbWinner.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerWert = new Label("");
-            lbWinnerWert.setPadding(new Insets(5,5,5,0));
-        Label lbWinnerAnzZuege = new Label("Anzahl Spielzüge:                    ");
-            lbWinnerAnzZuege.setPadding(new Insets(5,5,5,5));
-            lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerAnzZuegeWert = new Label("0");
-            lbWinnerAnzZuegeWert.setPadding(new Insets(5,5,5,0));
-            lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerSpieldauer = new Label("Spieldauer: ");
-            lbWinnerSpieldauer.setPadding(new Insets(5,5,5,5));
-            lbWinnerSpieldauer.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerSpieldauerWert = new Label("3min 15sek");
-            lbWinnerSpieldauerWert.setPadding(new Insets(5,5,5,0));
 
 
         // Gridpand Winner
@@ -177,7 +197,9 @@ public class GUI extends Application{
                 button.setOnAction(new EventHandler<ActionEvent>() {
                     @Override
                     public void handle(ActionEvent event) {
-                        game.drop(finalJ);
+                        if (!game.hasAWinner()) {
+                            game.drop(finalJ);
+                        }
                         if (game.hasAWinner()) {
                             gPaneWinner.setVisible(true);
                         }

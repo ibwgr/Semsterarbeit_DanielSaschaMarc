@@ -100,6 +100,7 @@ public class ConnectFour {
     }
 
     public boolean hasAWinner() {
+        if(lastCol == -1) return false;
         String sym = grid.get(lastRow).get(lastCol).getValue();
         String forConnect = sym + sym + sym + sym;
 
