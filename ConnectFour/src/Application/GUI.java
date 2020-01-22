@@ -76,17 +76,8 @@ public class GUI extends Application{
             @Override
             protected Task createTask() {
                 Stoppuhr stoppuhr = new Stoppuhr(game);
-                try {
-                    stoppuhr.messageProperty().addListener(new ChangeListener<String>() {
-                        @Override
-                        public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                            lbSpieldauerWert.setText(newValue);
-                            lbWinnerSpieldauerWert.setText(newValue);
-                        }
-                    });
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+                lbSpieldauerWert.textProperty().bind(stoppuhr.messageProperty());
+                lbWinnerSpieldauerWert.textProperty().bind(stoppuhr.messageProperty());
                 return stoppuhr;
             }
         };

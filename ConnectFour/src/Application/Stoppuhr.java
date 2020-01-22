@@ -6,9 +6,8 @@ import java.util.Date;
 
 public class Stoppuhr extends Task<String> {
 
-    String anz_m, anz_s, anz_hs;
-    Date startZeit, aktuelleZeit;
-    boolean running = true;
+    private String anz_m, anz_s, anz_hs;
+    private Date startZeit, aktuelleZeit;
     private ConnectFour game;
 
     public Stoppuhr(ConnectFour game) {
@@ -21,7 +20,6 @@ public class Stoppuhr extends Task<String> {
         String diff = "";
         while (!game.hasAWinner()) {
             if (isCancelled() || game.hasAWinner()) {
-                running = false;
                 break;
             }
             Thread.sleep(500);
