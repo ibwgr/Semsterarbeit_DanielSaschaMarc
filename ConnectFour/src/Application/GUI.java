@@ -12,10 +12,9 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -28,14 +27,15 @@ public class GUI extends Application{
         ConnectFour game = new ConnectFour(8,6);
         window = primaryStage;
         window.setTitle("4 Gewinnt");
-        window.setMinHeight(530);
-        window.setMinWidth(850);
+        window.setMinHeight(450);
+        window.setMinWidth(750);
 
         // Gameboard
-        GridPane layout = new GridPane();
-        layout.setPadding(new Insets(10,10,10,10));
-        layout.setHgap(5);
-        layout.setVgap(5);
+        GridPane gameBoard = new GridPane();
+        gameBoard.setPadding(new Insets(10,10,10,10));
+        gameBoard.setHgap(5);
+        gameBoard.setVgap(5);
+        gameBoard.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
 
         // Logo Top
         Label lbVierGewinntLogo1 = new Label("4-GEWINNT");
@@ -145,7 +145,7 @@ public class GUI extends Application{
         // Borderpane Spielseite - Hier wird Spielfenster zusammengebaut
         BorderPane bPane = new BorderPane();
         bPane.setTop(lbVierGewinntLogo1);
-        bPane.setCenter(layout);
+        bPane.setCenter(gameBoard);
         bPane.setBottom(hBoxButtons);
         bPane.setLeft(vBoxL);
 
@@ -180,8 +180,12 @@ public class GUI extends Application{
         for (int i = 0; i < game.getGrid().size(); i++) {
             for (int j = 0; j < game.getGrid().get(i).size(); j++) {
                 Button button = new Button();
-                button.setMinWidth(60);
-                button.setMinHeight(60);
+                double r = 30;
+                button.setShape(new Circle(r));
+                button.setMinSize(2*r, 2*r);
+                button.setMaxSize(2*r, 2*r);
+//                button.setMinWidth(60);
+//                button.setMinHeight(60);
                 button.setStyle("-fx-background-color: " + game.getGrid().get(i).get(j).getValue());
                 int finalI = i;
                 int finalJ = j;
@@ -202,7 +206,7 @@ public class GUI extends Application{
                         button.setStyle("-fx-background-color: " + newValue);
                     }
                 });
-                layout.add(button, j, i);
+                gameBoard.add(button, j, i);
             }
         }
         // Ende Spielfeld
