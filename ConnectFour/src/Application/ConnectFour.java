@@ -13,15 +13,17 @@ public class ConnectFour {
     private static int columns, rows;
     private static ArrayList<ArrayList<SimpleStringProperty>> grid;
     private static int lastCol, lastRow;
-    private static SimpleIntegerProperty player = new SimpleIntegerProperty(0);
-    private static ArrayList<SimpleIntegerProperty> playerMoves = new ArrayList<SimpleIntegerProperty>() {
-        {
-            add(new SimpleIntegerProperty(0));
-            add(new SimpleIntegerProperty(0));
-        }
-    };
+    private static SimpleIntegerProperty player;
+    private static ArrayList<SimpleIntegerProperty> playerMoves;
 
     public ConnectFour(int columns, int rows) {
+        player = new SimpleIntegerProperty(0);
+        playerMoves = new ArrayList<SimpleIntegerProperty>() {
+            {
+                add(new SimpleIntegerProperty(0));
+                add(new SimpleIntegerProperty(0));
+            }
+        };
         lastCol = -1;
         lastRow = -1;
         grid = new ArrayList<>();
