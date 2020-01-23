@@ -11,8 +11,8 @@ import java.util.ArrayList;
 public class ConnectFour {
     private static final String[] Colors = {"Red", "Yellow"};
     private static int columns, rows;
-    private static ArrayList<ArrayList<SimpleStringProperty>> grid = new ArrayList<>();
-    private static int lastCol = -1, lastRow = -1;
+    private static ArrayList<ArrayList<SimpleStringProperty>> grid;
+    private static int lastCol, lastRow;
     private static SimpleIntegerProperty player = new SimpleIntegerProperty(0);
     private static ArrayList<SimpleIntegerProperty> playerMoves = new ArrayList<SimpleIntegerProperty>() {
         {
@@ -22,6 +22,9 @@ public class ConnectFour {
     };
 
     public ConnectFour(int columns, int rows) {
+        lastCol = -1;
+        lastRow = -1;
+        grid = new ArrayList<>();
         this.columns = columns;
         this.rows = rows;
 
