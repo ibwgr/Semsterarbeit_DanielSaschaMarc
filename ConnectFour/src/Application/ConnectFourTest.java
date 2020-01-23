@@ -18,7 +18,6 @@ public class ConnectFourTest {
         }
     }
 
-    // Wenn alle Tests laufen failed Test Nr. 1, separat jedoch in Ordnung...
 
     @Test
     public void horizontalAdditionReturnsExpectedString (){
