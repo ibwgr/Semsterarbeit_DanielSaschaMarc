@@ -32,13 +32,9 @@ public class GUI extends Application{
 
         window = primaryStage;
         window.setTitle("4 Gewinnt");
-<<<<<<< HEAD
         window.setMinHeight(530);
         window.setMinWidth(830);
-=======
-        window.setMinHeight(450);
-        window.setMinWidth(750);
->>>>>>> master
+
 
         // Logo Top
         Label lbVierGewinntLogo1 = new Label("4-GEWINNT");
@@ -48,7 +44,6 @@ public class GUI extends Application{
         lbVierGewinntLogo2.setPadding(new Insets(5,5,5,10));
         lbVierGewinntLogo2.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
 
-<<<<<<< HEAD
 
 
         // Left - Game Infos
@@ -218,160 +213,7 @@ public class GUI extends Application{
         VBox vBoxL = new VBox(gPaneSpielInfo, gPaneWinner);  //lbAktSpieler,lbSpieldauer,lbAnzZuegePl1,lbAnzZuegePl2
         vBoxL.setPadding(new Insets(10,10,10,10));
         vBoxL.setStyle("-fx-background-color: #122515");
-=======
-
-
-        // Left - Game Infos
-
-        // Spielanleitung
-        Button btnSpielanleitung = new Button("Spielanleitung");
-        btnSpielanleitung.setPadding(new Insets(5,5,5,5));
-        Label lbSpielanleitungTitel = new Label("Spielanleitung: ");
-        lbSpielanleitungTitel.setPadding(new Insets(5,5,5,5));
-        Label lbSpielanleitung = new Label("Spielanleitung Text..............................");
-        lbSpielanleitung.setPadding(new Insets(5,5,5,5));
-        Button btnStartBack = new Button("Spielseite");
-        btnStartBack.setPadding(new Insets(5,5,5,5));
-
-        // Spielseite Bottom - Buttons
-        Button btnStart = new Button("Start");
-        btnStart.setPadding(new Insets(5,5,5,5));
-        btnStart.setOnAction(event ->
-                newGame());
-
-            // Spielseite Bottom - HBox für Buttons
-        HBox hBoxButtons = new HBox(btnStart, btnSpielanleitung);
-        hBoxButtons.setPadding(new Insets(5,5,5,5));
-        hBoxButtons.setSpacing(5);
-
-        // Borderpane Spielseite - Hier wird Spielfenster zusammengebaut
-        bPane = new BorderPane();
-        bPane.setTop(lbVierGewinntLogo1);
-        bPane.setBottom(hBoxButtons);
-
-
-        // VBox Spielanleitung
-        VBox vBoxSpielanleitung = new VBox(lbSpielanleitungTitel,lbSpielanleitung);
-        //vBoxSpielanleitung.setStyle("-fx-background-color: red");
-
-        // Spielanleitung Bottom - HBox für Buttons
-        HBox hBoxButtonsAnleitung = new HBox(btnStartBack);
-        hBoxButtonsAnleitung.setPadding(new Insets(5,5,5,5));
-        hBoxButtonsAnleitung.setSpacing(5);
-
-        // Borderpane Spielanleitung
-        BorderPane bPaneAnleitung = new BorderPane();
-        bPaneAnleitung.setTop(lbVierGewinntLogo2);
-        bPaneAnleitung.setLeft(vBoxSpielanleitung);
-        bPaneAnleitung.setBottom(hBoxButtonsAnleitung);
- //       bPaneAnleitung.setStyle("-fx-background-color: LightGoldenRodYellow ");
-        Scene sceneAnleitung = new Scene(bPaneAnleitung, 850,530);
-
-        btnSpielanleitung.setOnAction(e -> primaryStage.setScene(sceneAnleitung));
-
-        gameScene = new Scene(bPane, 850,530);
-        btnStartBack.setOnAction(e -> primaryStage.setScene(gameScene));  // Position in Code wäre schöner wenn weiter oben..
-        window.setScene(gameScene);
-        window.show();
-
-        newGame();
-
-
->>>>>>> master
-
-
-    }
-
-    private void newGame() {
-
-        game = new ConnectFour(8,6);
-
-        // Gameboard
-        gameBoard = new GridPane();
-        gameBoard.setPadding(new Insets(10,10,10,10));
-        gameBoard.setHgap(5);
-        gameBoard.setVgap(5);
-        gameBoard.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-
-
-
-
-        // Left - Winnerinfo
-        Label lbWinner = new Label("Sieger:");
-        lbWinner.setPadding(new Insets(5,5,5,5));
-        lbWinner.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerWert = new Label("");
-        lbWinnerWert.setPadding(new Insets(5,5,5,0));
-        Label lbWinnerAnzZuege = new Label("Anzahl Spielzüge:");
-        lbWinnerAnzZuege.setPadding(new Insets(5,5,5,5));
-        lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerAnzZuegeWert = new Label("0");
-        lbWinnerAnzZuegeWert.setPadding(new Insets(5,5,5,0));
-        lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerSpieldauer = new Label("Spieldauer: ");
-        lbWinnerSpieldauer.setPadding(new Insets(5,5,5,5));
-        lbWinnerSpieldauer.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerSpieldauerWert = new Label("3min 15sek");
-        lbWinnerSpieldauerWert.setPadding(new Insets(5,5,5,0));
-
-        Label lbAktSpieler = new Label("Aktueller Spieler: ");
-        lbAktSpieler.setPadding(new Insets(5,5,5,0));
-        lbAktSpieler.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbAktSpielerWert = new Label("Player 1");
-        Label lbSpieldauer = new Label("Spieldauer: ");
-        lbSpieldauer.setPadding(new Insets(5,5,5,0));
-        lbSpieldauer.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbSpieldauerWert = new Label("2min 15sek");
-        Service s = new Service() {
-            @Override
-            protected Task createTask() {
-                Stoppuhr stoppuhr = new Stoppuhr(game);
-                lbSpieldauerWert.textProperty().bind(stoppuhr.messageProperty());
-                lbWinnerSpieldauerWert.textProperty().bind(stoppuhr.messageProperty());
-                return stoppuhr;
-            }
-        };
-        s.start();
-        Label lbAnzZuegePl1 = new Label("Anzahl Spielzüge Player 1: ");
-        lbAnzZuegePl1.setPadding(new Insets(5,25,5,0));
-        lbAnzZuegePl1.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbAnzZuegePl1Wert = new Label("0");
-        Label lbAnzZuegePl2 = new Label("Anzahl Spielzüge Player 2: ");
-        lbAnzZuegePl2.setPadding(new Insets(5,5,5,0));
-        lbAnzZuegePl2.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbAnzZuegePl2Wert = new Label("0");
-        Label lbAbstand = new Label("");
-
-
-        // Gridpane Gameinfo
-        GridPane gPaneSpielInfo = new GridPane();
-        gPaneSpielInfo.add(lbAktSpieler,0,0);
-        gPaneSpielInfo.add(lbAktSpielerWert,1,0);
-        gPaneSpielInfo.add(lbSpieldauer,0,1);
-        gPaneSpielInfo.add(lbSpieldauerWert,1,1);
-        gPaneSpielInfo.add(lbAnzZuegePl1,0,2);
-        gPaneSpielInfo.add(lbAnzZuegePl1Wert,1,2);
-        gPaneSpielInfo.add(lbAnzZuegePl2,0,3);
-        gPaneSpielInfo.add(lbAnzZuegePl2Wert,1,3);
-        gPaneSpielInfo.add(lbAbstand,0,4);
-
-
-        // Gridpand Winner
-        gPaneWinner = new GridPane();
-        gPaneWinner.setVisible(false);
-        gPaneWinner.setStyle("-fx-background-color: lightgrey");
-        gPaneWinner.add(lbWinner,0,0);
-        gPaneWinner.add(lbWinnerWert,1,0);
-        gPaneWinner.add(lbWinnerAnzZuege,0,1);
-        gPaneWinner.add(lbWinnerAnzZuegeWert,1,1);
-        gPaneWinner.add(lbWinnerSpieldauer,0,2);
-        gPaneWinner.add(lbWinnerSpieldauerWert,1,2);
-
-
-        // Left - VBox für Spielinfos
-        VBox vBoxL = new VBox(gPaneSpielInfo, gPaneWinner);  //lbAktSpieler,lbSpieldauer,lbAnzZuegePl1,lbAnzZuegePl2
-        vBoxL.setPadding(new Insets(10,10,10,10));
-        //vBoxL.setStyle("-fx-background-color: lightblue");
+        
 
         for (int i = 0; i < game.getGrid().size(); i++) {
             for (int j = 0; j < game.getGrid().get(i).size(); j++) {
@@ -411,7 +253,6 @@ public class GUI extends Application{
                 lbWinnerWert.setText("Player " + (2-newValue.intValue()));
             }
         });
-<<<<<<< HEAD
 
         game.getPlayerMoves().get(0).addListener(new ChangeListener<Number>() {
             @Override
@@ -421,17 +262,7 @@ public class GUI extends Application{
             }
         });
 
-=======
 
-        game.getPlayerMoves().get(0).addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                lbAnzZuegePl1Wert.setText(newValue.toString());
-                lbWinnerAnzZuegeWert.setText(newValue.toString());
-            }
-        });
-
->>>>>>> master
         game.getPlayerMoves().get(1).addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
