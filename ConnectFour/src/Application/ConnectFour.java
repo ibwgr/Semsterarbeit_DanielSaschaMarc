@@ -1,20 +1,32 @@
 package Application;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.collections.ObservableList;
+import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.util.ArrayList;
 
 public class ConnectFour {
     private static final String[] Colors = {"Red", "Yellow"};
     private static int columns, rows;
-    private static ArrayList<ArrayList<SimpleStringProperty>> grid = new ArrayList<>();
-    private static int lastCol = -1, lastRow = -1;
-    private int player = 0;
-    private int redMoves = 0;
-    private int yellowMoves = 0;
-
+    private static ArrayList<ArrayList<SimpleStringProperty>> grid;
+    private static int lastCol, lastRow;
+    private static SimpleIntegerProperty player;
+    private static ArrayList<SimpleIntegerProperty> playerMoves;
 
     public ConnectFour(int columns, int rows) {
+        player = new SimpleIntegerProperty(0);
+        playerMoves = new ArrayList<SimpleIntegerProperty>() {
+            {
+                add(new SimpleIntegerProperty(0));
+                add(new SimpleIntegerProperty(0));
+            }
+        };
+        lastCol = -1;
+        lastRow = -1;
+        grid = new ArrayList<>();
         this.columns = columns;
         this.rows = rows;
 
@@ -30,6 +42,14 @@ public class ConnectFour {
 
     public static ArrayList<ArrayList<SimpleStringProperty>> getGrid() {
         return grid;
+    }
+
+    public static SimpleIntegerProperty getPlayer() {
+        return player;
+    }
+
+    public static ArrayList<SimpleIntegerProperty> getPlayerMoves() {
+        return playerMoves;
     }
 
     public String horizontalAddition() {
@@ -85,6 +105,7 @@ public class ConnectFour {
     }
 
     public boolean hasAWinner() {
+        if(lastCol == -1) return false;
         String sym = grid.get(lastRow).get(lastCol).getValue();
         String forConnect = sym + sym + sym + sym;
 
@@ -99,11 +120,11 @@ public class ConnectFour {
         for (int row = rows - 1; row >= 0; row--) {
 
             if (grid.get(row).get(col).getValue() == "White") {
-                grid.get(lastRow = row).get(lastCol = col).set(Colors[player]);
-                player = 1 - player;
+                grid.get(lastRow = row).get(lastCol = col).set(Colors[player.get()]);
+                playerMoves.get(player.get()).set(playerMoves.get(player.get()).get() + 1);
+                player.set(1 - player.get());
                 return;
             }
-
         }
         System.out.println("Column " + col + " is full.");
     }
