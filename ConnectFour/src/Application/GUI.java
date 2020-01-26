@@ -12,12 +12,21 @@ import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 
 public class GUI extends Application{
     Stage window;
@@ -54,19 +63,20 @@ public class GUI extends Application{
         Label lbSpielanleitungTitel = new Label("\n" + "Spielanleitung: ");
             lbSpielanleitungTitel.setPadding(new Insets(5,5,5,5));
             lbSpielanleitungTitel.setFont(Font.font ("Verdana", FontWeight.BOLD, 14));
-        Label lbSpielanleitung = new Label(
-                "„Vier gewinnt“ ist ein Zweipersonen-Strategiespiel.  \n" +
-                "Das Ziel des Spiels ist als erster vier der eigenen Spielsteine in eine Linie   \n" +
-                "zu bringen. Dies kann horizontal, vertikal oder diagonal sein.  \n" +
-                "Die Spieler klicken abwechselnd in die Spalte in die sie den nächsten   \n" +
-                "Spielstein setzen wollen. \n" +
-                "Das Spiel kann unentschieden Enden wenn alle Spielsteine aufgebraucht sind  \n" +
-                "und keiner der beiden Spieler eine Viererlinie gebildet hat. \n" +
-                "Hat einer der beiden Spieler gewonnen wird ein Feld mit   \n" +
-                "mit der Spielzusammenfassung angezeigt. \n"
-        );
-            lbSpielanleitung.setPadding(new Insets(5,5,5,5));
-            lbSpielanleitung.setFont(Font.font ("Verdana", FontWeight.BOLD, 18));
+            String spielanleitung = "";
+            File anleitung = new File("src/resources/Spielanleitung.txt");
+        try (BufferedReader reader = new BufferedReader(new FileReader(anleitung))) {
+            String line;
+            while ((line = reader.readLine()) != null)
+                spielanleitung += line;
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Text lbSpielanleitung = new Text(spielanleitung);
+            lbSpielanleitung.setWrappingWidth(800);
+            lbSpielanleitung.setFont(Font.font ("Verdana", FontWeight.BOLD, 14));
+
         Button btnStartBack = new Button("Spielseite");
             btnStartBack.setPadding(new Insets(5,5,5,5));
 
@@ -213,7 +223,7 @@ public class GUI extends Application{
         VBox vBoxL = new VBox(gPaneSpielInfo, gPaneWinner);  //lbAktSpieler,lbSpieldauer,lbAnzZuegePl1,lbAnzZuegePl2
         vBoxL.setPadding(new Insets(10,10,10,10));
         vBoxL.setStyle("-fx-background-color: #122515");
-        
+
 
         for (int i = 0; i < game.getGrid().size(); i++) {
             for (int j = 0; j < game.getGrid().get(i).size(); j++) {
