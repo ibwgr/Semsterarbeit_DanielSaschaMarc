@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Path;
@@ -27,6 +28,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 public class GUI extends Application{
     Stage window;
@@ -224,6 +226,7 @@ public class GUI extends Application{
         vBoxL.setPadding(new Insets(10,10,10,10));
         vBoxL.setStyle("-fx-background-color: #122515");
 
+        AudioClip drop = new AudioClip((Paths.get("src/resources/drop.mp3").toUri().toString()));
 
         for (int i = 0; i < game.getGrid().size(); i++) {
             for (int j = 0; j < game.getGrid().get(i).size(); j++) {
@@ -240,6 +243,7 @@ public class GUI extends Application{
                     public void handle(ActionEvent event) {
                         if (!game.hasAWinner()) {
                             game.drop(finalJ);
+                            drop.play();
                         }
                         if (game.hasAWinner()) {
                             gPaneWinner.setVisible(true);
