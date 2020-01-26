@@ -227,6 +227,7 @@ public class GUI extends Application{
         vBoxL.setStyle("-fx-background-color: #122515");
 
         AudioClip drop = new AudioClip((Paths.get("src/resources/drop.mp3").toUri().toString()));
+        AudioClip winner = new AudioClip((Paths.get("src/resources/winner.mp3").toUri().toString()));
 
         for (int i = 0; i < game.getGrid().size(); i++) {
             for (int j = 0; j < game.getGrid().get(i).size(); j++) {
@@ -247,6 +248,7 @@ public class GUI extends Application{
                         }
                         if (game.hasAWinner()) {
                             gPaneWinner.setVisible(true);
+                            winner.play();
                         }
                     }
                 });
