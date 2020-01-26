@@ -1,10 +1,7 @@
 package Application;
 
-import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.ObservableList;
-import sun.java2d.pipe.SpanShapeRenderer;
 
 import java.util.ArrayList;
 

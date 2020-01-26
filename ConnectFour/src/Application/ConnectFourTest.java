@@ -1,6 +1,5 @@
 package Application;
 
-import Application.ConnectFour;
 import javafx.beans.property.SimpleStringProperty;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
