@@ -7,7 +7,6 @@ import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
-import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -15,11 +14,8 @@ import javafx.scene.layout.*;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -39,28 +35,23 @@ public class GUI extends Application{
 
         window = primaryStage;
         window.setTitle("4 Gewinnt");
-        window.setMinHeight(530);
-        window.setMinWidth(830);
-
+        window.setMaxHeight(560);
+        window.setMaxWidth(870);
 
         // Logo Top
         Label lbVierGewinntLogo1 = new Label("4-GEWINNT");
+            lbVierGewinntLogo1.getStyleClass().add("lbviergewinntlogo1");
         Label lbVierGewinntLogo2 = new Label("4-GEWINNT");
-        lbVierGewinntLogo1.setPadding(new Insets(5,5,5,10));
-        lbVierGewinntLogo1.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
-        lbVierGewinntLogo2.setPadding(new Insets(5,5,5,10));
-        lbVierGewinntLogo2.setFont(Font.font ("Verdana", FontWeight.BOLD, 20));
-
-
+            lbVierGewinntLogo2.getStyleClass().add("lbviergewinntlogo2");
 
         // Left - Game Infos
 
         // Spielanleitung
         Button btnSpielanleitung = new Button("Spielanleitung");
-            btnSpielanleitung.setPadding(new Insets(5,5,5,5));
+            btnSpielanleitung.getStyleClass().add("btn");
         Label lbSpielanleitungTitel = new Label("\n" + "Spielanleitung: ");
-            lbSpielanleitungTitel.setPadding(new Insets(5,5,5,5));
-            lbSpielanleitungTitel.setFont(Font.font ("Verdana", FontWeight.BOLD, 14));
+            lbSpielanleitungTitel.getStyleClass().add("lbspielanleitungtitel");
+
             String spielanleitung = "";
             File anleitung = new File("ConnectFour\\src\\resources\\Spielanleitung.txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(anleitung))) {
@@ -72,56 +63,57 @@ public class GUI extends Application{
             e.printStackTrace();
         }
         Text lbSpielanleitung = new Text(spielanleitung);
-            lbSpielanleitung.setWrappingWidth(800);
-            lbSpielanleitung.setFont(Font.font ("Verdana", FontWeight.BOLD, 14));
-
+            lbSpielanleitung.getStyleClass().add("lbspielanleitung");
+            lbSpielanleitung.setWrappingWidth(800);  // noch nicht herausgefunden wie man dies im css file umsetzt
+            //   lbSpielanleitung.setFill(Color.WHITE);
         Button btnStartBack = new Button("Spielseite");
-            btnStartBack.setPadding(new Insets(5,5,5,5));
+            btnStartBack.getStyleClass().add("btn");
 
         // Spielseite Bottom - Buttons
         Button btnStart = new Button("Start");
-        btnStart.setPadding(new Insets(5,5,5,5));
-        btnStart.setOnAction(event ->
+            btnStart.getStyleClass().add("btn");
+            btnStart.setOnAction(event ->
                 newGame());
 
-            // Spielseite Bottom - HBox für Buttons
+        // Spielseite Bottom - HBox für Buttons
         HBox hBoxButtons = new HBox(btnStart, btnSpielanleitung);
-        hBoxButtons.setPadding(new Insets(5,5,5,5));
-        hBoxButtons.setSpacing(5);
+            hBoxButtons.getStyleClass().add("hboxbuttons");
 
         // Borderpane Spielseite - Hier wird Spielfenster zusammengebaut
         bPane = new BorderPane();
-        bPane.setTop(lbVierGewinntLogo1);
-        bPane.setBottom(hBoxButtons);
-
+            bPane.setTop(lbVierGewinntLogo1);
+            bPane.setBottom(hBoxButtons);
+            bPane.getStyleClass().add("bpane");
 
         // VBox Spielanleitung
         VBox vBoxSpielanleitung = new VBox(lbSpielanleitungTitel,lbSpielanleitung);
-        //vBoxSpielanleitung.setStyle("-fx-background-color: red");
+             vBoxSpielanleitung.getStyleClass().add("vboxspielanleitung");
 
         // Spielanleitung Bottom - HBox für Buttons
         HBox hBoxButtonsAnleitung = new HBox(btnStartBack);
-        hBoxButtonsAnleitung.setPadding(new Insets(5,5,5,5));
-        hBoxButtonsAnleitung.setSpacing(5);
+            hBoxButtonsAnleitung.getStyleClass().add("hboxbuttonsanleitung");
 
         // Borderpane Spielanleitung
         BorderPane bPaneAnleitung = new BorderPane();
-        bPaneAnleitung.setTop(lbVierGewinntLogo2);
-        bPaneAnleitung.setLeft(vBoxSpielanleitung);
-        bPaneAnleitung.setBottom(hBoxButtonsAnleitung);
- //       bPaneAnleitung.setStyle("-fx-background-color: LightGoldenRodYellow ");
+            bPaneAnleitung.setTop(lbVierGewinntLogo2);
+            bPaneAnleitung.setLeft(vBoxSpielanleitung);
+            bPaneAnleitung.setBottom(hBoxButtonsAnleitung);
+            bPaneAnleitung.getStyleClass().add("bpaneanleitung");
+
         Scene sceneAnleitung = new Scene(bPaneAnleitung, 850,530);
+            sceneAnleitung.getStylesheets().add("resources/styles.css");
 
         btnSpielanleitung.setOnAction(e -> primaryStage.setScene(sceneAnleitung));
 
-        gameScene = new Scene(bPane, 815,530);
-        btnStartBack.setOnAction(e -> primaryStage.setScene(gameScene));  // Position in Code wäre schöner wenn weiter oben..
+        gameScene = new Scene(bPane, 850,530);
+            gameScene.getStylesheets().add("resources/styles.css");
+            btnStartBack.setOnAction(e -> primaryStage.setScene(gameScene));
+            primaryStage.setResizable(false);
 
         window.setScene(gameScene);
         window.show();
 
         newGame();
-
     }
 
     private void newGame() {
@@ -130,42 +122,31 @@ public class GUI extends Application{
 
         // Gameboard
         gameBoard = new GridPane();
-        gameBoard.setPadding(new Insets(10,10,10,10));
-        gameBoard.setHgap(5);
-        gameBoard.setVgap(5);
-        gameBoard.setBackground(new Background(new BackgroundFill(Color.GREEN, CornerRadii.EMPTY, Insets.EMPTY)));
-
+            gameBoard.getStyleClass().add("gameboard");
 
         // Left - Winnerinfo
         Label lbWinner = new Label("Sieger:");
-        lbWinner.setPadding(new Insets(5,5,5,5));
-        lbWinner.setFont(Font.font("Verdana", FontWeight.BOLD,12));
+            lbWinner.getStyleClass().add("lbwinner");
         Label lbWinnerWert = new Label("");
-        lbWinnerWert.setPadding(new Insets(5,5,5,0));
+            lbWinnerWert.getStyleClass().add("lbwertwinner");
         Label lbWinnerAnzZuege = new Label("Anzahl Spielzüge:");
-        lbWinnerAnzZuege.setPadding(new Insets(5,5,5,5));
-        lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
+            lbWinnerAnzZuege.getStyleClass().add("lbwinner");
         Label lbWinnerAnzZuegeWert = new Label("0");
-        lbWinnerAnzZuegeWert.setPadding(new Insets(5,5,5,0));
-        lbWinnerAnzZuege.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerSpieldauer = new Label("Spieldauer: ");
-        lbWinnerSpieldauer.setPadding(new Insets(5,5,5,5));
-        lbWinnerSpieldauer.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-        Label lbWinnerSpieldauerWert = new Label("3min 15sek");
-        lbWinnerSpieldauerWert.setPadding(new Insets(5,5,5,0));
+            lbWinnerAnzZuegeWert.getStyleClass().add("lbwertwinner");
 
+        Label lbWinnerSpieldauer = new Label("Spieldauer: ");
+            lbWinnerSpieldauer.getStyleClass().add("lbwinner");
+        Label lbWinnerSpieldauerWert = new Label("3min 15sek");
+            lbWinnerSpieldauerWert.getStyleClass().add("lbwertwinner");
         Label lbAktSpieler = new Label("Aktueller Spieler: ");
-            lbAktSpieler.setPadding(new Insets(5,5,5,0));
-            lbAktSpieler.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-            lbAktSpieler.setTextFill(Color.web("white"));
+            lbAktSpieler.getStyleClass().add("lb");
         Label lbAktSpielerWert = new Label("Player 1");
-            lbAktSpielerWert.setTextFill(Color.web("white"));
+            lbAktSpielerWert.getStyleClass().add("lbwert");
         Label lbSpieldauer = new Label("Spieldauer: ");
-            lbSpieldauer.setPadding(new Insets(5,5,5,0));
-            lbSpieldauer.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-            lbSpieldauer.setTextFill(Color.web("white"));
+            lbSpieldauer.getStyleClass().add("lb");
         Label lbSpieldauerWert = new Label("00m : 00s");
-            lbSpieldauerWert.setTextFill(Color.web("white"));
+            lbSpieldauerWert.getStyleClass().add("lbwert");
+
         Service s = new Service() {
             @Override
             protected Task createTask() {
@@ -176,21 +157,17 @@ public class GUI extends Application{
             }
         };
         s.start();
-        Label lbAnzZuegePl1 = new Label("Anzahl Spielzüge Player 1: ");
-            lbAnzZuegePl1.setPadding(new Insets(5,25,5,0));
-            lbAnzZuegePl1.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-            lbAnzZuegePl1.setTextFill(Color.web("white"));
-        Label lbAnzZuegePl1Wert = new Label("0");
-            lbAnzZuegePl1Wert.setTextFill(Color.web("white"));
-        Label lbAnzZuegePl2 = new Label("Anzahl Spielzüge Player 2: ");
-            lbAnzZuegePl2.setPadding(new Insets(5,5,5,0));
-            lbAnzZuegePl2.setFont(Font.font("Verdana", FontWeight.BOLD,12));
-            lbAnzZuegePl2.setTextFill(Color.web("white"));
-        Label lbAnzZuegePl2Wert = new Label("0");
-            lbAnzZuegePl2Wert.setTextFill(Color.web("white"));
-        Label lbAbstand = new Label("");
-            lbAbstand.setTextFill(Color.web("white"));
 
+        Label lbAnzZuegePl1 = new Label("Anzahl Spielzüge Player 1: ");
+            lbAnzZuegePl1.getStyleClass().add("lb");
+        Label lbAnzZuegePl1Wert = new Label("0");
+            lbAnzZuegePl1Wert.getStyleClass().add("lbwert");
+        Label lbAnzZuegePl2 = new Label("Anzahl Spielzüge Player 2: ");
+            lbAnzZuegePl2.getStyleClass().add("lb");
+        Label lbAnzZuegePl2Wert = new Label("0");
+            lbAnzZuegePl2Wert.getStyleClass().add("lbwert");
+        Label lbAbstand = new Label("");
+            lbAbstand.getStyleClass().add("lb");
 
         // Gridpane Gameinfo
         GridPane gPaneSpielInfo = new GridPane();
@@ -204,11 +181,10 @@ public class GUI extends Application{
         gPaneSpielInfo.add(lbAnzZuegePl2Wert,1,3);
         gPaneSpielInfo.add(lbAbstand,0,4);
 
-
         // Gridpand Winner
         gPaneWinner = new GridPane();
         gPaneWinner.setVisible(false);
-        gPaneWinner.setStyle("-fx-background-color: lightgrey");
+        gPaneWinner.getStyleClass().add("gpanewinner");
         gPaneWinner.add(lbWinner,0,0);
         gPaneWinner.add(lbWinnerWert,1,0);
         gPaneWinner.add(lbWinnerAnzZuege,0,1);
@@ -216,11 +192,9 @@ public class GUI extends Application{
         gPaneWinner.add(lbWinnerSpieldauer,0,2);
         gPaneWinner.add(lbWinnerSpieldauerWert,1,2);
 
-
         // Left - VBox für Spielinfos
         VBox vBoxL = new VBox(gPaneSpielInfo, gPaneWinner);  //lbAktSpieler,lbSpieldauer,lbAnzZuegePl1,lbAnzZuegePl2
-        vBoxL.setPadding(new Insets(10,10,10,10));
-        vBoxL.setStyle("-fx-background-color: #122515");
+            vBoxL.getStyleClass().add("vboxl");
 
         AudioClip drop = new AudioClip((Paths.get("src\\resources\\drop.mp3").toUri().toString()));
         AudioClip winner = new AudioClip((Paths.get("src\\resources\\winner.mp3").toUri().toString()));
@@ -273,7 +247,6 @@ public class GUI extends Application{
                 lbWinnerAnzZuegeWert.setText(newValue.toString());
             }
         });
-
 
         game.getPlayerMoves().get(1).addListener(new ChangeListener<Number>() {
             @Override
