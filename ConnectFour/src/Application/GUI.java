@@ -62,7 +62,7 @@ public class GUI extends Application{
             lbSpielanleitungTitel.setPadding(new Insets(5,5,5,5));
             lbSpielanleitungTitel.setFont(Font.font ("Verdana", FontWeight.BOLD, 14));
             String spielanleitung = "";
-            File anleitung = new File("src/resources/Spielanleitung.txt");
+            File anleitung = new File("ConnectFour\\src\\resources\\Spielanleitung.txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(anleitung))) {
             String line;
             while ((line = reader.readLine()) != null)
@@ -222,8 +222,8 @@ public class GUI extends Application{
         vBoxL.setPadding(new Insets(10,10,10,10));
         vBoxL.setStyle("-fx-background-color: #122515");
 
-        AudioClip drop = new AudioClip((Paths.get("src/resources/drop.mp3").toUri().toString()));
-        AudioClip winner = new AudioClip((Paths.get("src/resources/winner.mp3").toUri().toString()));
+        AudioClip drop = new AudioClip((Paths.get("src\\resources\\drop.mp3").toUri().toString()));
+        AudioClip winner = new AudioClip((Paths.get("src\\resources\\winner.mp3").toUri().toString()));
 
         for (int i = 0; i < game.getGrid().size(); i++) {
             for (int j = 0; j < game.getGrid().get(i).size(); j++) {
