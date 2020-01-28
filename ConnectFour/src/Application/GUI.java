@@ -5,30 +5,28 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.*;
-import javafx.scene.media.AudioClip;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 
 public class GUI extends Application{
-    Stage window;
-    GridPane gameBoard;
-    BorderPane bPane;
-    ConnectFour game;
-    GridPane gPaneWinner;
-    Scene gameScene;
+    private Stage window;
+    private GridPane gameBoard;
+    private BorderPane bPane;
+    private ConnectFour game;
+    private static GridPane gPaneWinner;
+    private Scene gameScene;
+
+    public static GridPane getgPaneWinner() {
+        return gPaneWinner;
+    }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -44,8 +42,6 @@ public class GUI extends Application{
         Label lbVierGewinntLogo2 = new Label("4-GEWINNT");
             lbVierGewinntLogo2.getStyleClass().add("lbviergewinntlogo2");
 
-        // Left - Game Infos
-
         // Spielanleitung
         Button btnSpielanleitung = new Button("Spielanleitung");
             btnSpielanleitung.getStyleClass().add("btn");
@@ -53,7 +49,7 @@ public class GUI extends Application{
             lbSpielanleitungTitel.getStyleClass().add("lbspielanleitungtitel");
 
             String spielanleitung = "";
-            File anleitung = new File("src/resources/Spielanleitung.txt");
+            File anleitung = new File("src\\resources\\Spielanleitung.txt");
         try (BufferedReader reader = new BufferedReader(new FileReader(anleitung))) {
             String line;
             while ((line = reader.readLine()) != null)
@@ -118,11 +114,9 @@ public class GUI extends Application{
 
     private void newGame() {
 
+        // Setup Game and Gameboard
         game = new ConnectFour(8,6);
-
-        // Gameboard
-        gameBoard = new GridPane();
-            gameBoard.getStyleClass().add("gameboard");
+        gameBoard = new GameBoard(game);
 
         // Left - Winnerinfo
         Label lbWinner = new Label("Sieger:");
@@ -131,9 +125,10 @@ public class GUI extends Application{
             lbWinnerWert.getStyleClass().add("lbwertwinner");
         Label lbWinnerAnzZuege = new Label("Anzahl Spielzüge:");
             lbWinnerAnzZuege.getStyleClass().add("lbwinner");
-        Label lbWinnerAnzZuegeWert = new Label("0");
+        Label lbWinnerAnzZuegeWert = new Label("");
             lbWinnerAnzZuegeWert.getStyleClass().add("lbwertwinner");
 
+        // Left - Gameinfo
         Label lbWinnerSpieldauer = new Label("Spieldauer: ");
             lbWinnerSpieldauer.getStyleClass().add("lbwinner");
         Label lbWinnerSpieldauerWert = new Label("3min 15sek");
@@ -196,42 +191,6 @@ public class GUI extends Application{
         VBox vBoxL = new VBox(gPaneSpielInfo, gPaneWinner);  //lbAktSpieler,lbSpieldauer,lbAnzZuegePl1,lbAnzZuegePl2
             vBoxL.getStyleClass().add("vboxl");
 
-        AudioClip drop = new AudioClip((Paths.get("src/resources/drop.mp3").toUri().toString()));
-        AudioClip winner = new AudioClip((Paths.get("src/resources/winner.mp3").toUri().toString()));
-
-        for (int i = 0; i < game.getGrid().size(); i++) {
-            for (int j = 0; j < game.getGrid().get(i).size(); j++) {
-                Button button = new Button();
-                double r = 30;
-                button.setShape(new Circle(r));
-                button.setMinSize(2*r, 2*r);
-                button.setMaxSize(2*r, 2*r);
-                button.setStyle("-fx-background-color: " + game.getGrid().get(i).get(j).getValue());
-                int finalI = i;
-                int finalJ = j;
-                button.setOnAction(new EventHandler<ActionEvent>() {
-                    @Override
-                    public void handle(ActionEvent event) {
-                        if (!game.hasAWinner()) {
-                            game.drop(finalJ);
-                            drop.play();
-                        }
-                        if (game.hasAWinner()) {
-                            gPaneWinner.setVisible(true);
-                            winner.play();
-                        }
-                    }
-                });
-                game.getGrid().get(i).get(j).addListener(new ChangeListener<String>() {
-                    @Override
-                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                        button.setStyle("-fx-background-color: " + newValue);
-                    }
-                });
-                gameBoard.add(button, j, i);
-            }
-        }
-
         game.getPlayer().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
@@ -255,6 +214,7 @@ public class GUI extends Application{
                 lbWinnerAnzZuegeWert.setText(newValue.toString());
             }
         });
+
         bPane.setLeft(vBoxL);
         bPane.setCenter(gameBoard);
         window.setScene(gameScene);
