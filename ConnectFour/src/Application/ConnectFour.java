@@ -6,12 +6,12 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.ArrayList;
 
 public class ConnectFour {
-    private static final String[] Colors = {"Red", "Yellow"};
-    private static int columns, rows;
-    private static ArrayList<ArrayList<SimpleStringProperty>> grid;
-    private static int lastCol, lastRow;
-    private static SimpleIntegerProperty player;
-    private static ArrayList<SimpleIntegerProperty> playerMoves;
+    private final String[] Colors = {"Red", "Yellow"};
+    private int columns, rows;
+    private ArrayList<ArrayList<SimpleStringProperty>> grid;
+    private int lastCol, lastRow;
+    private SimpleIntegerProperty player;
+    private ArrayList<SimpleIntegerProperty> playerMoves;
 
     public ConnectFour(int columns, int rows) {
         player = new SimpleIntegerProperty(0);
@@ -37,16 +37,16 @@ public class ConnectFour {
         }
     }
 
-    public static ArrayList<ArrayList<SimpleStringProperty>> getGrid() {
-        return grid;
+    public ArrayList<ArrayList<SimpleStringProperty>> getGrid() {
+        return this.grid;
     }
 
-    public static SimpleIntegerProperty getPlayer() {
-        return player;
+    public SimpleIntegerProperty getPlayer() {
+        return this.player;
     }
 
-    public static ArrayList<SimpleIntegerProperty> getPlayerMoves() {
-        return playerMoves;
+    public ArrayList<SimpleIntegerProperty> getPlayerMoves() {
+        return this.playerMoves;
     }
 
     public String horizontalAddition() {
