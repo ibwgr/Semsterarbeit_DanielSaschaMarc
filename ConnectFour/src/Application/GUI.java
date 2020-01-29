@@ -1,20 +1,24 @@
 package Application;
 
+import HighscoreList.Highscores;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.*;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
+import java.beans.EventHandler;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.sql.Time;
 
 public class GUI extends Application{
     private Stage window;
@@ -23,6 +27,12 @@ public class GUI extends Application{
     private ConnectFour game;
     private static GridPane gPaneWinner;
     private Scene gameScene;
+    private static Stoppuhr stoppuhr;
+    private Highscores highscores;
+
+    public static Stoppuhr getStoppuhr() {
+        return stoppuhr;
+    }
 
     public static GridPane getgPaneWinner() {
         return gPaneWinner;
@@ -71,8 +81,11 @@ public class GUI extends Application{
             btnStart.setOnAction(event ->
                 newGame());
 
+         Button btnHighscores = new Button("Highscores");
+            btnHighscores.getStyleClass().add("btn");
+
         // Spielseite Bottom - HBox für Buttons
-        HBox hBoxButtons = new HBox(btnStart, btnSpielanleitung);
+        HBox hBoxButtons = new HBox(btnStart, btnSpielanleitung, btnHighscores);
             hBoxButtons.getStyleClass().add("hboxbuttons");
 
         // Borderpane Spielseite - Hier wird Spielfenster zusammengebaut
@@ -96,10 +109,38 @@ public class GUI extends Application{
             bPaneAnleitung.setBottom(hBoxButtonsAnleitung);
             bPaneAnleitung.getStyleClass().add("bpaneanleitung");
 
+        // TableView Highscores
+        TableView<Highscores> highscoreTable = new TableView<>();
+        TableColumn<Highscores, String> columnName = new TableColumn<>("Name");
+        TableColumn<Highscores, Integer> columnPlayerMoves = new TableColumn<>("Spielzüge");
+        TableColumn<Highscores, Time> columnSpieldauer = new TableColumn<>("Spieldauer");
+
+        columnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+        columnPlayerMoves.setCellValueFactory(new PropertyValueFactory<>("playerMoves"));
+        columnSpieldauer.setCellValueFactory(new PropertyValueFactory<>("spieldauer"));
+
+        highscoreTable.setEditable(true);
+        highscores = new Highscores();
+        highscoreTable.setItems(highscores.getList());
+        highscoreTable.getColumns().addAll(columnName, columnPlayerMoves, columnSpieldauer);
+
+
+
+        // Borderpane Highscores
+        BorderPane bPaneHighscores = new BorderPane();
+        bPaneHighscores.setTop(lbVierGewinntLogo2);
+        bPaneHighscores.setLeft(highscoreTable);
+        bPaneHighscores.setBottom(hBoxButtonsAnleitung);
+        bPaneHighscores.getStyleClass().add("bpaneanleitung");
+
         Scene sceneAnleitung = new Scene(bPaneAnleitung, 850,530);
             sceneAnleitung.getStylesheets().add("resources/styles.css");
 
         btnSpielanleitung.setOnAction(e -> primaryStage.setScene(sceneAnleitung));
+
+        Scene highscoreScene = new Scene(bPaneHighscores, 850,530);
+
+        btnHighscores.setOnAction(e -> primaryStage.setScene(highscoreScene));
 
         gameScene = new Scene(bPane, 850,530);
             gameScene.getStylesheets().add("resources/styles.css");
@@ -127,6 +168,14 @@ public class GUI extends Application{
             lbWinnerAnzZuege.getStyleClass().add("lbwinner");
         Label lbWinnerAnzZuegeWert = new Label("");
             lbWinnerAnzZuegeWert.getStyleClass().add("lbwertwinner");
+        TextField spielerName = new TextField();
+        Button speichereScore = new Button("Save Score");
+        speichereScore.setOnAction(e -> {
+            highscores.addPlayer(game, spielerName.getText());
+            spielerName.setDisable(true);
+            speichereScore.setDisable(true);
+                }
+        );
 
         // Left - Gameinfo
         Label lbWinnerSpieldauer = new Label("Spieldauer: ");
@@ -145,7 +194,7 @@ public class GUI extends Application{
         Service s = new Service() {
             @Override
             protected Task createTask() {
-                Stoppuhr stoppuhr = new Stoppuhr(game);
+                stoppuhr = new Stoppuhr(game);
                 lbSpieldauerWert.textProperty().bind(stoppuhr.messageProperty());
                 lbWinnerSpieldauerWert.textProperty().bind(stoppuhr.messageProperty());
                 return stoppuhr;
@@ -186,6 +235,8 @@ public class GUI extends Application{
         gPaneWinner.add(lbWinnerAnzZuegeWert,1,1);
         gPaneWinner.add(lbWinnerSpieldauer,0,2);
         gPaneWinner.add(lbWinnerSpieldauerWert,1,2);
+        gPaneWinner.add(spielerName,0,3);
+        gPaneWinner.add(speichereScore,1,3);
 
         // Left - VBox für Spielinfos
         VBox vBoxL = new VBox(gPaneSpielInfo, gPaneWinner);  //lbAktSpieler,lbSpieldauer,lbAnzZuegePl1,lbAnzZuegePl2

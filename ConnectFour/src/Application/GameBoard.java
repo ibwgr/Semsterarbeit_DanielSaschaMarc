@@ -1,5 +1,6 @@
 package Application;
 
+import HighscoreList.Highscores;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;

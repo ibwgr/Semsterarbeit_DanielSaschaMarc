@@ -10,6 +10,18 @@ public class Stoppuhr extends Task<String> {
     private Date startZeit, aktuelleZeit;
     private ConnectFour game;
 
+    public String getAnz_hs() {
+        return anz_hs;
+    }
+
+    public String getAnz_m() {
+        return anz_m;
+    }
+
+    public String getAnz_s() {
+        return anz_s;
+    }
+
     public Stoppuhr(ConnectFour game) {
         this.game = game;
     }
