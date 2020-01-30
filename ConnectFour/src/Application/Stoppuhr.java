@@ -42,7 +42,9 @@ public class Stoppuhr extends Task<String> {
                 anz_m = "0" + m;
             else
                 anz_m = "" + m;
+
             diff = anz_m + "m : " + anz_s + "s";
+
             updateMessage(diff);
         }
 
