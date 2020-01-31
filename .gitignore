@@ -1,8 +1,5 @@
-<<<<<<< HEAD
-*.class
-=======
+
 .class
->>>>>>> featureNada
 /.idea/
 /out/
 /target/
