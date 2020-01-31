@@ -59,7 +59,6 @@ public class ConnectFourTest {
 
         Assertions.assertEquals(result,cf.slashDiagonalAddition());
 
-
     }
 
     @Test

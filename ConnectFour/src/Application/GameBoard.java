@@ -1,6 +1,10 @@
 package Application;
 
+<<<<<<< HEAD
 import javafx.beans.value.ChangeListener;
+=======
+import  javafx.beans.value.ChangeListener;
+>>>>>>> featureNada
 import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;

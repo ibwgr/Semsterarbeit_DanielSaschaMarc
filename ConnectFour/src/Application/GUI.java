@@ -60,8 +60,12 @@ public class GUI extends Application{
         }
         Text lbSpielanleitung = new Text(spielanleitung);
             lbSpielanleitung.getStyleClass().add("lbspielanleitung");
+<<<<<<< HEAD
             lbSpielanleitung.setWrappingWidth(800);  // noch nicht herausgefunden wie man dies im css file umsetzt
             //   lbSpielanleitung.setFill(Color.WHITE);
+=======
+            lbSpielanleitung.setWrappingWidth(800);
+>>>>>>> featureNada
         Button btnStartBack = new Button("Spielseite");
             btnStartBack.getStyleClass().add("btn");
 
@@ -166,6 +170,7 @@ public class GUI extends Application{
 
         // Gridpane Gameinfo
         GridPane gPaneSpielInfo = new GridPane();
+        gPaneSpielInfo.setPrefWidth(260);
         gPaneSpielInfo.add(lbAktSpieler,0,0);
         gPaneSpielInfo.add(lbAktSpielerWert,1,0);
         gPaneSpielInfo.add(lbSpieldauer,0,1);
@@ -176,7 +181,11 @@ public class GUI extends Application{
         gPaneSpielInfo.add(lbAnzZuegePl2Wert,1,3);
         gPaneSpielInfo.add(lbAbstand,0,4);
 
+<<<<<<< HEAD
         // Gridpand Winner
+=======
+        // Gridpane Winner
+>>>>>>> featureNada
         gPaneWinner = new GridPane();
         gPaneWinner.setVisible(false);
         gPaneWinner.getStyleClass().add("gpanewinner");
@@ -206,6 +215,10 @@ public class GUI extends Application{
                 lbWinnerAnzZuegeWert.setText(newValue.toString());
             }
         });
+<<<<<<< HEAD
+=======
+
+>>>>>>> featureNada
 
         game.getPlayerMoves().get(1).addListener(new ChangeListener<Number>() {
             @Override
