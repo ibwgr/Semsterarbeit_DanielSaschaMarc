@@ -3,23 +3,24 @@ package Application;
 import javafx.beans.property.SimpleStringProperty;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import java.util.ArrayList;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ConnectFourTest {
 
-
     @Test
-    public void ConnectFourcreatesGridwithStringsWhite (){
+    public void ConnectFourCreatesGridwithStringsWhite (){
 
         ConnectFour cf = new ConnectFour(8,6);
         SimpleStringProperty s = new SimpleStringProperty("White");
 
         for (int i = 0; i < cf.getGrid().size(); i++) {
             for (int j = 0; j < cf.getGrid().get(i).size(); j++) {
-                Assertions.assertEquals(s.getValue(), cf.getGrid().get(i).get(j).getValue());
+                assertEquals(s.getValue(), cf.getGrid().get(i).get(j).getValue());
             }
         }
     }
-
 
     @Test
     public void horizontalAdditionReturnsExpectedString (){
@@ -29,7 +30,7 @@ public class ConnectFourTest {
         cf.drop(0);
         cf.drop(6);
         cf.drop(4);
-        Assertions.assertEquals(result,cf.horizontalAddition());
+        assertEquals(result,cf.horizontalAddition());
 
     }
 
@@ -41,7 +42,8 @@ public class ConnectFourTest {
         cf.drop(0);
         cf.drop(0);
         cf.drop(0);
-        Assertions.assertEquals(result,cf.verticalAddition());
+        assertEquals(result,cf.verticalAddition());
+
     }
 
     @Test
@@ -56,7 +58,9 @@ public class ConnectFourTest {
         }
         cf.drop(3);
 
-        Assertions.assertEquals(result,cf.slashDiagonalAddition());
+        assertEquals(result,cf.slashDiagonalAddition());
+
+
     }
 
     @Test
@@ -71,22 +75,9 @@ public class ConnectFourTest {
         }
         cf.drop(2);
 
-        Assertions.assertEquals(result,cf.backslashDiagonal());
+        assertEquals(result,cf.backslashDiagonal());
 
     }
-
-    @Test
-    public void hasAWinnerReturnsTrueifTestSlashDiagonal (){
-        ConnectFour cf = new ConnectFour(8,6);
-        String result = "RedRedRedRed";
-
-        cf.drop(0);
-        cf.hasAWinner();
-
-//        Assertions.assertEquals(result, cf.getForConnect());
-//        System.out.println(cf.getForConnect());
-    }
-
 
     @Test
     public void hasWinnerReturnsFalse (){
@@ -167,7 +158,8 @@ public class ConnectFourTest {
 
         cf.drop(5);
 
-        Assertions.assertEquals(result, cf.getGrid().get(5).get(5).getValue());
+        assertEquals(result, cf.getGrid().get(5).get(5).getValue());
+
     }
 
     @Test
@@ -184,7 +176,26 @@ public class ConnectFourTest {
         cf.drop(4);
         cf.drop(4);
 
-        Assertions.assertEquals(result, cf.getGrid().get(1).get(4).getValue());
+        assertEquals(result, cf.getGrid().get(1).get(4).getValue());
     }
 
+
+
+    @Test
+    public void DropReturnGrid() {
+        ConnectFour cf = new ConnectFour(8, 6);
+
+        for (int i = 0; i <= 5; i++) {
+            for (int j = 0; j <= 7; j++) {
+                cf.drop(j);
+            }
+        }
+
+        ArrayList<ArrayList<SimpleStringProperty>> result = cf.getGrid();
+
+        cf.drop(5);
+
+        assertEquals(result, cf.getGrid());
+
+    }
 }
