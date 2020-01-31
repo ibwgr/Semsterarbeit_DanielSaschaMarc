@@ -38,7 +38,10 @@ public class GameBoard extends GridPane {
                         }
                         if (game.hasAWinner()) {
                             GUI.getgPaneWinner().setVisible(true);
-                            winner.play();
+                            if (!winner.isPlaying()) {
+                                winner.play();
+                            }
+
                         }
                     }
                 });

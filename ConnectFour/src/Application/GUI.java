@@ -4,6 +4,8 @@ import HighscoreList.Highscores;
 import javafx.application.Application;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.Scene;
@@ -122,15 +124,27 @@ public class GUI extends Application{
         highscoreTable.setEditable(true);
         highscores = new Highscores();
         highscoreTable.setItems(highscores.getList());
+        highscores.getList().addListener(new ListChangeListener<Highscores>() {
+            @Override
+            public void onChanged(Change<? extends Highscores> c) {
+                if (c.wasUpdated()) {
+                    highscoreTable.setItems(highscores.getList());
+                }
+            }
+        });
+
         highscoreTable.getColumns().addAll(columnName, columnPlayerMoves, columnSpieldauer);
 
-
+        Button btnStartBack2 = new Button("Spielseite");
+        btnStartBack2.getStyleClass().add("btn");
+        HBox hBoxButtonsHighscores = new HBox(btnStartBack2);
+        btnStartBack2.setOnAction(e -> primaryStage.setScene(gameScene));
 
         // Borderpane Highscores
         BorderPane bPaneHighscores = new BorderPane();
         bPaneHighscores.setTop(lbVierGewinntLogo2);
         bPaneHighscores.setLeft(highscoreTable);
-        bPaneHighscores.setBottom(hBoxButtonsAnleitung);
+        bPaneHighscores.setBottom(hBoxButtonsHighscores);
         bPaneHighscores.getStyleClass().add("bpaneanleitung");
 
         Scene sceneAnleitung = new Scene(bPaneAnleitung, 850,530);

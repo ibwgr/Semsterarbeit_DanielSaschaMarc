@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>JAVA</ID>
+  <OriginalElement />
+  <nodes>
+    <node x="101.62500000000001" y="257.0">HighscoreList.Highscores</node>
+    <node x="118.50000000000001" y="178.0">Application.GUI</node>
+    <node x="125.00000000000001" y="89.0">Application.GameBoard</node>
+    <node x="142.36772486772486" y="0.0">Application.ConnectFour</node>
+    <node x="0.0" y="89.0">Application.Stoppuhr</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Application.GUI" target="Application.GameBoard">
+      <point x="0.0" y="-14.5" />
+      <point x="-28.0" y="14.5" />
+    </edge>
+    <edge source="HighscoreList.Highscores" target="Application.GUI">
+      <point x="-48.0" y="-14.5" />
+      <point x="113.62500000000001" y="232.0" />
+      <point x="127.12500000000001" y="232.0" />
+      <point x="-25.875" y="14.5" />
+    </edge>
+    <edge source="HighscoreList.Highscores" target="Application.ConnectFour">
+      <point x="48.0" y="-14.5" />
+      <point x="209.625" y="232.0" />
+      <point x="268.3571428571429" y="232.0" />
+      <point x="268.3571428571429" y="49.0" />
+      <point x="258.78439153439155" y="49.0" />
+      <point x="52.91666666666666" y="14.5" />
+    </edge>
+    <edge source="Application.GameBoard" target="Application.ConnectFour">
+      <point x="0.0" y="-14.5" />
+      <point x="181.0" y="69.0" />
+      <point x="195.28439153439155" y="69.0" />
+      <point x="-10.583333333333343" y="14.5" />
+    </edge>
+    <edge source="Application.GameBoard" target="Application.GUI">
+      <point x="28.0" y="14.5" />
+      <point x="209.0" y="138.0" />
+      <point x="162.8571428571429" y="138.0" />
+      <point x="9.857142857142861" y="-14.5" />
+    </edge>
+    <edge source="Application.GUI" target="Application.ConnectFour">
+      <point x="29.571428571428584" y="-14.5" />
+      <point x="182.5714285714286" y="158.0" />
+      <point x="257.3571428571429" y="158.0" />
+      <point x="257.3571428571429" y="59.0" />
+      <point x="237.61772486772486" y="59.0" />
+      <point x="31.75" y="14.5" />
+    </edge>
+    <edge source="Application.Stoppuhr" target="Application.ConnectFour">
+      <point x="26.25" y="-14.5" />
+      <point x="78.75" y="69.0" />
+      <point x="174.11772486772486" y="69.0" />
+      <point x="-31.75" y="14.5" />
+    </edge>
+    <edge source="Application.GUI" target="Application.Stoppuhr">
+      <point x="-29.571428571428555" y="-14.5" />
+      <point x="123.42857142857146" y="158.0" />
+      <point x="17.5" y="158.0" />
+      <point x="-35.0" y="14.5" />
+    </edge>
+    <edge source="Application.GUI" target="HighscoreList.Highscores">
+      <point x="8.625" y="14.5" />
+      <point x="0.0" y="-14.5" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.4000000000000004" x="141.5" y="58.00000000000004" />
+  <SelectedNodes>
+    <node>Application.Stoppuhr</node>
+  </SelectedNodes>
+  <Categories />
+  <SCOPE>All</SCOPE>
+  <VISIBILITY>private</VISIBILITY>
+</Diagram>
+
