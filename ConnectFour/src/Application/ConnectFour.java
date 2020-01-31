@@ -7,9 +7,6 @@ import java.util.ArrayList;
 
 public class ConnectFour {
 
-    // btnSpielanleitung.getStyleClass().add("colorplayer1");
-     String color1 = "colorplayer1";
-
     private final String[] Colors = {"Red", "Yellow"};
     private int columns, rows;
     private ArrayList<ArrayList<SimpleStringProperty>> grid;

@@ -165,6 +165,7 @@ public class GUI extends Application{
 
         // Gridpane Gameinfo
         GridPane gPaneSpielInfo = new GridPane();
+        gPaneSpielInfo.setPrefWidth(260);
         gPaneSpielInfo.add(lbAktSpieler,0,0);
         gPaneSpielInfo.add(lbAktSpielerWert,1,0);
         gPaneSpielInfo.add(lbSpieldauer,0,1);
