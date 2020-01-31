@@ -6,10 +6,7 @@ import javafx.beans.property.SimpleStringProperty;
 import java.util.ArrayList;
 
 public class ConnectFour {
-<<<<<<< HEAD
-=======
 
->>>>>>> featureNada
     private final String[] Colors = {"Red", "Yellow"};
     private int columns, rows;
     private ArrayList<ArrayList<SimpleStringProperty>> grid;

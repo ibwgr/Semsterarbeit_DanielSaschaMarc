@@ -1,0 +1,13 @@
+Anleitung Ausführung Vier Gewinnt:
+
+Für die Ausführung des Spiels Vier Gewinnt wird IntellJ oder ein ähnliches IDE benötigt. 
+Das Projekt kann von Github auf folgendem Link geclont werden: https://github.com/ibwgr/Semsterarbeit_DanielSaschaMarc.
+Beim öffnen mit den IDE muss der Ordner ConnectFour gewählt werden, welcher den .idea Ordner enthält.
+Möglicherweise muss in der IDE das JDK, der src-Ordner sowie ein out-Ordner definert werden. Die Applikation wird über
+die GUI Klasse ausgeführt. 
+
+Datenbankanbindung:
+Im Branch featureVinkja wurde die Datenbank teils implementiert. Diese benötigt jedoch eine vordefinierte Datenbank in MariaDB
+mit Namen ConnectFour und eine darin enthaltenen Tabelle mit Namen highscores mit den drei Datentypen: 
+name [varchar], spielzuege [int], spieldauer [Time]. Zudem muss der Zugriff zur richtigen Datenbank in der Klasse
+Highscores auf Zeile 66 sowie Zeile 85 auf die eigene Datenbank umgeschrieben werden.
