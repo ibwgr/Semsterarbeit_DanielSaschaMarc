@@ -1,0 +1,115 @@
+/*************************/
+/********* Spiel *********/
+/*************************/
+
+.bpane{
+    -fx-background-color: #122515;
+}
+
+.vboxl {
+    -fx-background-color: #122515;
+    -fx-padding: 10,10,10,10;
+}
+
+.lbviergewinntlogo1 {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 30;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+}
+
+.gpanewinner {
+    -fx-background-color: white;
+    -fx-background-radius: 10.0;
+    -fx-padding: 10;
+}
+
+.gameboard {
+    -fx-background-color: #122515;
+    -fx-padding: 10;
+    -fx-hgap: 5;
+    -fx-vgap: 5;
+    -fx-border-color: white;
+    -fx-max-width: 400;
+}
+
+.btn {
+    -fx-padding: 5;
+    -fx-font-weight: bold;
+}
+
+.lb {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 12;
+    -fx-text-fill: green;
+    -fx-font-weight: bold;
+}
+
+.lbwert {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 12;
+    -fx-text-fill: yellow;
+    -fx-padding: 5;
+}
+
+.lbwinner {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 12;
+    -fx-text-fill: green;
+    -fx-font-weight: bold;
+
+}
+
+.lbwertwinner {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 12;
+    -fx-text-fill: black;
+    -fx-padding: 5;
+    -fx-font-weight: bold;
+}
+
+.hboxbuttons {
+    -fx-padding: 5;
+    -fx-spacing: 5;
+}
+
+/******************************/
+/******* Spielanleitung *******/
+/*****************************/
+
+.bpaneanleitung {
+    -fx-background-color: #556B2F;
+}
+
+.lbviergewinntlogo2 {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 30;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+}
+
+.vboxspielanleitung {
+    -fx-padding: 10;
+}
+
+.lbspielanleitungtitel {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 16;
+    -fx-text-fill: white;
+    -fx-font-weight: bold;
+    -fx-padding: 10;
+}
+
+.lbspielanleitung {
+    -fx-font-family: "Verdana";
+    -fx-font-size: 20;
+    -fx-font-weight: bold;
+    -fx-padding: 15;
+    -fx-fill: white;
+}
+
+.hboxbuttonsanleitung {
+    -fx-padding: 5;
+}
