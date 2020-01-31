@@ -105,14 +105,9 @@
 .lbspielanleitung {
     -fx-font-family: "Verdana";
     -fx-font-size: 20;
-<<<<<<< HEAD
- /*   -fx-font-weight: bold; */
-    -fx-padding: 15;
-=======
     -fx-font-weight: bold;
     -fx-padding: 15;
     -fx-fill: white;
->>>>>>> featureNada
 }
 
 .hboxbuttonsanleitung {
