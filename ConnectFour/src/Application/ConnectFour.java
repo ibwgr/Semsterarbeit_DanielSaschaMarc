@@ -1,8 +1,10 @@
 package Application;
 
+import com.sun.corba.se.pept.transport.ReaderThread;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+import java.io.Reader;
 import java.util.ArrayList;
 
 public class ConnectFour {
@@ -12,16 +14,10 @@ public class ConnectFour {
     private ArrayList<ArrayList<SimpleStringProperty>> grid;
     private int lastCol, lastRow;
     private SimpleIntegerProperty player;
-    private ArrayList<SimpleIntegerProperty> playerMoves;
 
     public ConnectFour(int columns, int rows) {
         player = new SimpleIntegerProperty(0);
-        playerMoves = new ArrayList<SimpleIntegerProperty>() {
-            {
-                add(new SimpleIntegerProperty(0));
-                add(new SimpleIntegerProperty(0));
-            }
-        };
+
         lastCol = -1;
         lastRow = -1;
         grid = new ArrayList<>();
@@ -44,10 +40,6 @@ public class ConnectFour {
 
     public SimpleIntegerProperty getPlayer() {
         return this.player;
-    }
-
-    public ArrayList<SimpleIntegerProperty> getPlayerMoves() {
-        return this.playerMoves;
     }
 
     public String horizontalAddition() {
@@ -114,14 +106,15 @@ public class ConnectFour {
     }
 
     public void drop(int col) {
+        if (col < 0) return;
 
         for (int row = rows - 1; row >= 0; row--) {
 
             if (grid.get(row).get(col).getValue() == "White") {
                 grid.get(lastRow = row).get(lastCol = col).set(Colors[player.get()]);
-                playerMoves.get(player.get()).set(playerMoves.get(player.get()).get() + 1);
                 player.set(1 - player.get());
                 return;
+
             }
         }
         System.out.println("Column " + col + " is full.");

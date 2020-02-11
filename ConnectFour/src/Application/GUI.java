@@ -1,20 +1,28 @@
 package Application;
 
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class GUI extends Application{
     private Stage window;
@@ -23,6 +31,23 @@ public class GUI extends Application{
     private ConnectFour game;
     private static GridPane gPaneWinner;
     private Scene gameScene;
+    private ChatClient client;
+    private int player;
+    private ArrayList<Integer> playerMoves;
+    Label lbAktSpielerWert;
+    Label lbWinnerWert;
+    Label lbWinnerAnzZuegeWert;
+    Label lbAnzZuegePl1Wert;
+    private Label lbAnzZuegePl2Wert;
+    private SimpleIntegerProperty lastCol = new SimpleIntegerProperty(-1);
+
+    public SimpleIntegerProperty lastColProperty() {
+        return lastCol;
+    }
+
+    public void setLastCol(int lastCol) {
+        this.lastCol.set(lastCol);
+    }
 
     public static GridPane getgPaneWinner() {
         return gPaneWinner;
@@ -30,6 +55,10 @@ public class GUI extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        player = 0;
+        playerMoves =  new ArrayList ();
+        playerMoves.add(0);
+        playerMoves.add(0);
 
         window = primaryStage;
         window.setTitle("4 Gewinnt");
@@ -65,14 +94,14 @@ public class GUI extends Application{
         Button btnStartBack = new Button("Spielseite");
             btnStartBack.getStyleClass().add("btn");
 
-        // Spielseite Bottom - Buttons
-        Button btnStart = new Button("Start");
-            btnStart.getStyleClass().add("btn");
-            btnStart.setOnAction(event ->
-                newGame());
+        // Start Bottom - Buttons
+//        Button btnStart = new Button("Start");
+//            btnStart.getStyleClass().add("btn");
+//            btnStart.setOnAction(event ->
+//                newGame(client.getWriter()));
 
         // Spielseite Bottom - HBox für Buttons
-        HBox hBoxButtons = new HBox(btnStart, btnSpielanleitung);
+        HBox hBoxButtons = new HBox(btnSpielanleitung);
             hBoxButtons.getStyleClass().add("hboxbuttons");
 
         // Borderpane Spielseite - Hier wird Spielfenster zusammengebaut
@@ -106,41 +135,138 @@ public class GUI extends Application{
             btnStartBack.setOnAction(e -> primaryStage.setScene(gameScene));
             primaryStage.setResizable(false);
 
-        window.setScene(gameScene);
+        // Connecting Scene
+        TextField name = new TextField("localhost");
+        Button connectBtn = new Button("Connect");
+        Label waiting = new Label("Waiting on second Player");
+
+        GridPane connectPane = new GridPane();
+        connectPane.add(name, 0,0);
+        connectPane.add(connectBtn,1,0);
+        Scene connectScene = new Scene(connectPane,300,200);
+        window.setScene(connectScene);
         window.show();
 
-        newGame();
+        // Setup Client
+        connectBtn.setOnAction(e -> {
+            String hostname = name.getText();
+            name.setDisable(true);
+            connectBtn.setDisable(true);
+            connectPane.add(waiting,0,1);
+
+            int port = 4444;
+            client = new ChatClient(hostname, port, this);
+            client.execute();
+
+            while (!client.getReady().contains("ready")) {
+                try {
+                    Thread.sleep(50);
+                } catch (InterruptedException ex) {
+                    ex.printStackTrace();
+                }
+                System.out.println("waiting");
+            }
+            newGame(client.getWriter(), client.getReader());
+        });
+
     }
 
-    private void newGame() {
-
-        // Setup Game and Gameboard
-        game = new ConnectFour(8,6);
-        gameBoard = new GameBoard(game);
-
+    private void newGame(WriteTask writer, ReadTask reader) {
         // Left - Winnerinfo
         Label lbWinner = new Label("Sieger:");
-            lbWinner.getStyleClass().add("lbwinner");
-        Label lbWinnerWert = new Label("");
-            lbWinnerWert.getStyleClass().add("lbwertwinner");
+        lbWinner.getStyleClass().add("lbwinner");
+        lbWinnerWert = new Label("");
+        lbWinnerWert.getStyleClass().add("lbwertwinner");
         Label lbWinnerAnzZuege = new Label("Anzahl Spielzüge:");
-            lbWinnerAnzZuege.getStyleClass().add("lbwinner");
-        Label lbWinnerAnzZuegeWert = new Label("");
-            lbWinnerAnzZuegeWert.getStyleClass().add("lbwertwinner");
+        lbWinnerAnzZuege.getStyleClass().add("lbwinner");
+        lbWinnerAnzZuegeWert = new Label("");
+        lbWinnerAnzZuegeWert.getStyleClass().add("lbwertwinner");
 
         // Left - Gameinfo
         Label lbWinnerSpieldauer = new Label("Spieldauer: ");
-            lbWinnerSpieldauer.getStyleClass().add("lbwinner");
+        lbWinnerSpieldauer.getStyleClass().add("lbwinner");
         Label lbWinnerSpieldauerWert = new Label("3min 15sek");
-            lbWinnerSpieldauerWert.getStyleClass().add("lbwertwinner");
+        lbWinnerSpieldauerWert.getStyleClass().add("lbwertwinner");
         Label lbAktSpieler = new Label("Aktueller Spieler: ");
-            lbAktSpieler.getStyleClass().add("lb");
-        Label lbAktSpielerWert = new Label("Player 1");
-            lbAktSpielerWert.getStyleClass().add("lbwert");
+        lbAktSpieler.getStyleClass().add("lb");
+        lbAktSpielerWert = new Label("Player 1");
+        lbAktSpielerWert.getStyleClass().add("lbwert");
         Label lbSpieldauer = new Label("Spieldauer: ");
-            lbSpieldauer.getStyleClass().add("lb");
+        lbSpieldauer.getStyleClass().add("lb");
         Label lbSpieldauerWert = new Label("00m : 00s");
-            lbSpieldauerWert.getStyleClass().add("lbwert");
+        lbSpieldauerWert.getStyleClass().add("lbwert");
+        Label lbAnzZuegePl1 = new Label("Anzahl Spielzüge Player 1: ");
+        lbAnzZuegePl1.getStyleClass().add("lb");
+        lbAnzZuegePl1Wert = new Label("0");
+        lbAnzZuegePl1Wert.getStyleClass().add("lbwert");
+        Label lbAnzZuegePl2 = new Label("Anzahl Spielzüge Player 2: ");
+        lbAnzZuegePl2.getStyleClass().add("lb");
+        lbAnzZuegePl2Wert = new Label("0");
+        lbAnzZuegePl2Wert.getStyleClass().add("lbwert");
+        Label lbAbstand = new Label("");
+        lbAbstand.getStyleClass().add("lb");
+
+        // Setup Game and Gameboard
+        game = new ConnectFour(8,6);
+        gameBoard = new GridPane();
+        gameBoard.getStyleClass().add("gameboard");
+        //AudioClip drop = new AudioClip((Paths.get("src\\resources\\drop.mp3").toUri().toString()));
+        //AudioClip winner = new AudioClip((Paths.get("src\\resources\\winner.mp3").toUri().toString()));
+
+        for (int i = 0; i < game.getGrid().size(); i++) {
+            for (int j = 0; j < game.getGrid().get(i).size(); j++) {
+                Button button = new Button();
+                double r = 30;
+                button.setShape(new Circle(r));
+                button.setMinSize(2*r, 2*r);
+                button.setMaxSize(2*r, 2*r);
+                button.setStyle("-fx-background-color: " + game.getGrid().get(i).get(j).getValue());
+                int finalI = i;
+                int finalJ = j;
+
+
+                button.setOnAction(new EventHandler<ActionEvent>() {
+                    @Override
+                    public void handle(ActionEvent event) {
+                        if (!game.hasAWinner() && Integer.parseInt(client.getUserName()) == game.getPlayer().getValue()) {
+                            game.drop(finalJ);
+
+                            refreshInfo();
+                            client.getWriter().sendMessage(finalJ);
+                        }
+                        if (game.hasAWinner()) {
+                            GUI.getgPaneWinner().setVisible(true);
+                            //winner.play();
+                        }
+                    }
+                });
+                game.getGrid().get(i).get(j).addListener(new ChangeListener<String>() {
+                    @Override
+                    public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+                        button.setStyle("-fx-background-color: " + newValue);
+                    }
+                });
+                gameBoard.add(button, j, i);
+            }
+        }
+
+        lastColProperty().addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
+                game.drop(newValue.intValue());
+                if (newValue.intValue() < 0) return;
+                Platform.runLater(()-> {
+                    refreshInfo();
+                });
+
+                if (game.hasAWinner()) {
+                    GUI.getgPaneWinner().setVisible(true);
+                    //winner.play();
+                }
+            }
+        });
+
+
 
         Service s = new Service() {
             @Override
@@ -153,16 +279,7 @@ public class GUI extends Application{
         };
         s.start();
 
-        Label lbAnzZuegePl1 = new Label("Anzahl Spielzüge Player 1: ");
-            lbAnzZuegePl1.getStyleClass().add("lb");
-        Label lbAnzZuegePl1Wert = new Label("0");
-            lbAnzZuegePl1Wert.getStyleClass().add("lbwert");
-        Label lbAnzZuegePl2 = new Label("Anzahl Spielzüge Player 2: ");
-            lbAnzZuegePl2.getStyleClass().add("lb");
-        Label lbAnzZuegePl2Wert = new Label("0");
-            lbAnzZuegePl2Wert.getStyleClass().add("lbwert");
-        Label lbAbstand = new Label("");
-            lbAbstand.getStyleClass().add("lb");
+
 
         // Gridpane Gameinfo
         GridPane gPaneSpielInfo = new GridPane();
@@ -193,32 +310,22 @@ public class GUI extends Application{
         VBox vBoxL = new VBox(gPaneSpielInfo, gPaneWinner);  //lbAktSpieler,lbSpieldauer,lbAnzZuegePl1,lbAnzZuegePl2
             vBoxL.getStyleClass().add("vboxl");
 
-        game.getPlayer().addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                lbAktSpielerWert.setText("Player " + (newValue.intValue() + 1));
-                lbWinnerWert.setText("Player " + (2-newValue.intValue()));
-            }
-        });
-
-        game.getPlayerMoves().get(0).addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                lbAnzZuegePl1Wert.setText(newValue.toString());
-                lbWinnerAnzZuegeWert.setText(newValue.toString());
-            }
-        });
-
-        game.getPlayerMoves().get(1).addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
-                lbAnzZuegePl2Wert.setText(newValue.toString());
-                lbWinnerAnzZuegeWert.setText(newValue.toString());
-            }
-        });
 
         bPane.setLeft(vBoxL);
         bPane.setCenter(gameBoard);
         window.setScene(gameScene);
+    }
+
+    private void refreshInfo() {
+        int count = playerMoves.get(player) + 1;
+        playerMoves.set(player, count);
+        lbWinnerAnzZuegeWert.setText(playerMoves.get(player).toString());
+        lbAnzZuegePl1Wert.setText(playerMoves.get(0).toString());
+        lbAnzZuegePl2Wert.setText(playerMoves.get(1).toString());
+
+
+        player = 1 -player;
+        lbWinnerWert.setText("Player " + (2-player));
+        lbAktSpielerWert.setText("Player " + (player + 1));
     }
 }
